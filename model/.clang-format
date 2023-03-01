@@ -1,0 +1,4 @@
+# Disable clang-format for this auto-generated folder
+
+DisableFormat: true
+SortIncludes: Never

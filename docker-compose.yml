@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  server:
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"

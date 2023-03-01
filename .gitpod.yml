@@ -1,0 +1,27 @@
+image: ghcr.io/cavoke-project/dev
+
+tasks:
+  - name: Database
+    before: docker build . -f db.Dockerfile -t my_db
+    command: docker run -d -p 5432:5432 my_db
+
+vscode:
+  extensions:
+    - ms-azuretools.vscode-docker
+    - timonwong.shellcheck
+    - ms-vscode.cmake-tools
+    - vscode.cpp
+
+jetbrains:
+  clion:
+    prebuilds:
+      version: stable
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: true
+    addCheck: true
+    addComment: true

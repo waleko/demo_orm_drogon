@@ -1,0 +1,45 @@
+{
+  "rdbms": "postgresql",
+  "host": "127.0.0.1",
+  "port": 5432,
+  "dbname": "postgres",
+  "schema": "public",
+  "user": "postgres",
+  "password": "postgres",
+  "tables": [],
+  "relationships": {
+    "enabled": true,
+    "items": [
+      {
+        "type": "has many",
+        "original_table_name": "planets",
+        "original_table_alias": "Planets",
+        "original_key": "id",
+        "target_table_name": "flights",
+        "target_table_alias": "Flights",
+        "target_key": "planet_id",
+        "enable_reverse": true
+      },
+      {
+        "type": "has many",
+        "original_table_name": "spacecrafts",
+        "original_table_alias": "Spacecrafts",
+        "original_key": "id",
+        "target_table_name": "flights",
+        "target_table_alias": "Flights",
+        "target_key": "spacecraft_id",
+        "enable_reverse": true
+      },
+      {
+        "type": "has many",
+        "original_table_name": "flights",
+        "original_table_alias": "Flights",
+        "original_key": "num",
+        "target_table_name": "tickets",
+        "target_table_alias": "Tickets",
+        "target_key": "flight_num",
+        "enable_reverse": true
+      }
+    ]
+  }
+}
