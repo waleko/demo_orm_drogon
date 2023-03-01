@@ -5,8 +5,7 @@
 using namespace drogon;
 
 namespace controllers {
-class SimpleController
-    : public drogon::HttpController<SimpleController, true> {
+class SimpleController : public drogon::HttpController<SimpleController, true> {
 public:
     METHOD_LIST_BEGIN
     ADD_METHOD_TO(SimpleController::health, "/health", Get);
@@ -21,13 +20,11 @@ public:
     void getTickets(
         const drogon::HttpRequestPtr &req,
         std::function<void(const drogon::HttpResponsePtr &)> &&callback);
-    void flight(
-        const drogon::HttpRequestPtr &req,
-        std::function<void(const drogon::HttpResponsePtr &)> &&callback,
-        int search_flight_num);
+    void flight(const drogon::HttpRequestPtr &req,
+                std::function<void(const drogon::HttpResponsePtr &)> &&callback,
+                int search_flight_num);
     void newSpacecraft(
         const drogon::HttpRequestPtr &req,
         std::function<void(const drogon::HttpResponsePtr &)> &&callback);
-
 };
 }  // namespace controllers
