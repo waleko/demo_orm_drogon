@@ -38,7 +38,7 @@ We will have four entities:
   * Planet `name`
   * Planet `distance` from the sun (in millions of km)
 
-  Example: `(3, 'Earth', 108)`
+  Example: `(3, 'Earth', 150)`
 * **Spacecrafts** with the following fields:
   * Spacecraft `id` in the database
   * Spacecraft `name`
