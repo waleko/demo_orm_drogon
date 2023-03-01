@@ -13,6 +13,7 @@ services:
     build:
       context: .
       dockerfile: server.Dockerfile
+    command: db
     depends_on:
       - db
     ports:

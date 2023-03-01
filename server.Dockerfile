@@ -9,9 +9,10 @@ EXPOSE $SERVER_PORT
 ENV MYSERVER_ROOT="$IROOT/demo_orm_drogon/"
 ADD ./ $MYSERVER_ROOT
 # Install server
-RUN mkdir -p build && \
-    cmake . -B build && \
-    make -C build install
+WORKDIR $MYSERVER_ROOT
+RUN mkdir -p cmake-build-docker && \
+    cmake . -B cmake-build-docker && \
+    make -C cmake-build-docker install
 WORKDIR /
 RUN rm -rf $MYSERVER_ROOT
 
