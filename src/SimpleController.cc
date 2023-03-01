@@ -30,11 +30,14 @@ void SimpleController::getTickets(
     auto dbClient = drogon::app().getDbClient();
     auto ticketMapper = Mapper<Tickets>(dbClient);
     // retrieve all tickets from the database
-    auto allTickets = ticketMapper.findAll();  // select * from tickets
+    // replaces: select * from tickets;
+    auto allTickets = ticketMapper.findAll();
     // convert to json array
     auto arr = Json::Value();
     for (auto &ticket : allTickets) {
         arr.append(ticket.toJson());
+        LOG_DEBUG << *ticket.getPaxName() << " on a flight #"
+                  << *ticket.getFlightNum();
     }
     // return the json array to the user
     callback(HttpResponse::newHttpJsonResponse(arr));
@@ -53,14 +56,18 @@ void SimpleController::flight(
     auto flightMapper = Mapper<Flights>(dbClient);
 
     // find the flight
+    // replaces: select * from flights where num = ?;
     auto flight = flightMapper.findByPrimaryKey(
-        search_flight_num);  // select * from tickets where id = ?
+        search_flight_num);
     auto flightJson = flight.toJson();
 
     // add spacecraft and planet objects to the json by corresponding ids
     std::promise<void> spacecraftPromise, planetPromise;
     auto spacecraftFuture = spacecraftPromise.get_future();
     auto planetFuture = planetPromise.get_future();
+
+    // replaces: select s.* from spacecrafts s join flights f on s.id =
+    //  f.spacecraft_id where f.num = ?;
     flight.getSpacecrafts(
         dbClient,
         [&](const Spacecrafts &spacecraft) {
@@ -71,6 +78,8 @@ void SimpleController::flight(
             spacecraftPromise.set_exception(
                 std::make_exception_ptr(err.base()));
         });
+    // replaces: select p.* from planets p join flights f on p.id = f.planet_id
+    //  where f.num = ?;
     flight.getPlanets(
         dbClient,
         [&](const Planets &planet) {
@@ -98,11 +107,13 @@ void SimpleController::newSpacecraft(
     std::stringstream(req->bodyData()) >> spacecraftData;
     auto spacecraftReq = Spacecrafts(spacecraftData);
 
+    // get db client and mapper
     auto dbClient = drogon::app().getDbClient();
     auto spacecraftMapper = Mapper<Spacecrafts>(dbClient);
 
     std::promise<Json::Value> spacecraftPromise;
     auto spacecraftFuture = spacecraftPromise.get_future();
+    // replaces: insert into spacecrafts values (?, ?, ?);
     spacecraftMapper.insert(
         spacecraftReq,
         [&](const Spacecrafts &flight) {
